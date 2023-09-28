@@ -1,9 +1,14 @@
 {
     "name": "project-dev",
     "remoteUser": "vscode",
-    "dockerComposeFile": ["docker-compose.yml"],
+    "dockerComposeFile": [
+        "docker-compose.yml"
+    ],
     "service": "vscode",
-    "runServices": ["vscode", "database"],
+    "runServices": [
+        "vscode",
+        "database"
+    ],
     "shutdownAction": "stopCompose",
     "postCreateCommand": "~/.ssh.sh",
     "workspaceFolder": "/workspace",
@@ -33,7 +38,9 @@
                 // Docker
                 "remote.extensionKind": {
                     "ms-azuretools.vscode-docker": "workspace"
-                }
+                },
+                // Format on save
+                "editor.formatOnSave": true
             }
         }
     }
