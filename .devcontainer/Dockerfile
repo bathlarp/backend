@@ -5,56 +5,56 @@ ARG USER_UID=1000
 ARG USER_GID=${USER_UID}
 ARG EXTHOME
 ENV OTP_VERSION="26.0.2" \
-    REBAR3_VERSION="3.20.0" \
-    ELIXIR_VERSION="v1.15.4" \
-    LANG=C.UTF-8
+	REBAR3_VERSION="3.20.0" \
+	ELIXIR_VERSION="v1.15.4" \
+	LANG=C.UTF-8
 
 # Erlang prerequisites (from buildpack-deps)
 RUN set -ex; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
-		autoconf \
-		automake \
-		bzip2 \
-		curl \
-		dpkg-dev \
-		file \
-		g++ \
-		gcc \
-		imagemagick \
-		libbz2-dev \
-		libc6-dev \
-		libcurl4-openssl-dev \
-		libdb-dev \
-		libevent-dev \
-		libffi-dev \
-		libgdbm-dev \
-		libglib2.0-dev \
-		libgmp-dev \
-		libjpeg-dev \
-		libkrb5-dev \
-		liblzma-dev \
-		libmagickcore-dev \
-		libmagickwand-dev \
-		libmaxminddb-dev \
-		libncurses5-dev \
-		libncursesw5-dev \
-		libpng-dev \
-		libpq-dev \
-		libreadline-dev \
-		libsqlite3-dev \
-		libssl-dev \
-		libtool \
-		libwebp-dev \
-		libxml2-dev \
-		libxslt-dev \
-		libyaml-dev \
-		make \
-		patch \
-		unzip \
-		xz-utils \
-		zlib1g-dev \
-  && rm -rf /var/lib/apt/lists/*
+	autoconf \
+	automake \
+	bzip2 \
+	curl \
+	dpkg-dev \
+	file \
+	g++ \
+	gcc \
+	imagemagick \
+	libbz2-dev \
+	libc6-dev \
+	libcurl4-openssl-dev \
+	libdb-dev \
+	libevent-dev \
+	libffi-dev \
+	libgdbm-dev \
+	libglib2.0-dev \
+	libgmp-dev \
+	libjpeg-dev \
+	libkrb5-dev \
+	liblzma-dev \
+	libmagickcore-dev \
+	libmagickwand-dev \
+	libmaxminddb-dev \
+	libncurses5-dev \
+	libncursesw5-dev \
+	libpng-dev \
+	libpq-dev \
+	libreadline-dev \
+	libsqlite3-dev \
+	libssl-dev \
+	libtool \
+	libwebp-dev \
+	libxml2-dev \
+	libxslt-dev \
+	libyaml-dev \
+	make \
+	patch \
+	unzip \
+	xz-utils \
+	zlib1g-dev \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Install Erlang - taken from: 
 # https://github.com/erlang/docker-erlang-otp/blob/bdc1fbcb4dc2636db8756af66d878a85e7afd0a7/26/Dockerfile
@@ -62,12 +62,12 @@ RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
 	&& OTP_DOWNLOAD_SHA256="4def5ed5e49815fb02fceae8a66e94abc1049f5de30f97d9ad12fdf3293a2470" \
 	&& runtimeDeps='libodbc1 \
-			libsctp1 \
-			libwxgtk3.0 \
-			libwxgtk-webview3.0-gtk3-0v5' \
+	libsctp1 \
+	libwxgtk3.0 \
+	libwxgtk-webview3.0-gtk3-0v5' \
 	&& buildDeps='unixodbc-dev \
-			libsctp-dev \
-			libwxgtk-webview3.0-gtk3-dev' \
+	libsctp-dev \
+	libwxgtk-webview3.0-gtk3-dev' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
@@ -78,12 +78,12 @@ RUN set -xe \
 	&& tar -xzf otp-src.tar.gz -C $ERL_TOP --strip-components=1 \
 	&& rm otp-src.tar.gz \
 	&& ( cd $ERL_TOP \
-	  && ./otp_build autoconf \
-	  && gnuArch="$(dpkg-architecture --query DEB_HOST_GNU_TYPE)" \
-	  && ./configure --build="$gnuArch" \
-	  && make -j$(nproc) \
-	  && make -j$(nproc) docs DOC_TARGETS=chunks \
-	  && make install install-docs DOC_TARGETS=chunks ) \
+	&& ./otp_build autoconf \
+	&& gnuArch="$(dpkg-architecture --query DEB_HOST_GNU_TYPE)" \
+	&& ./configure --build="$gnuArch" \
+	&& make -j$(nproc) \
+	&& make -j$(nproc) docs DOC_TARGETS=chunks \
+	&& make install install-docs DOC_TARGETS=chunks ) \
 	&& find /usr/local -name examples | xargs rm -rf \
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf $ERL_TOP /var/lib/apt/lists/*
@@ -135,28 +135,29 @@ RUN set -xe \
 
 # Set up non-root user
 RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    && apt-get update \
-    && apt-get install -y sudo \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME \
-		&& usermod --shell /bin/zsh root
+	&& useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+	&& apt-get update \
+	&& apt-get install -y sudo \
+	&& echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+	&& chmod 0440 /etc/sudoers.d/$USERNAME \
+	&& usermod --shell /bin/zsh root
 
 RUN cp -r /root/. /home/${USERNAME} \
-  && chown -R ${USER_UID}:${USER_GID} /home/${USERNAME} \
-  && chmod a+rx /usr/local/bin/*
+	&& chown -R ${USER_UID}:${USER_GID} /home/${USERNAME} \
+	&& chmod a+rx /usr/local/bin/*
 RUN sed -i -e s/root/home\\/${USERNAME}/ /home/${USERNAME}/.zshrc
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends \
-		  inotify-tools \ 
-			pgcli \
-			libpq-dev \
-			httpie \
-			build-essential \
-			erlang-dev \
-			libc-dev \
-			python3-typing-extensions \
-		&& rm -r /var/cache/* /var/lib/apt/lists/*
+	&& apt-get install -y --no-install-recommends \
+	inotify-tools \ 
+	pgcli \
+	libpq-dev \
+	httpie \
+	build-essential \
+	erlang-dev \
+	libc-dev \
+	python3-typing-extensions \
+	pre-commit \
+	&& rm -r /var/cache/* /var/lib/apt/lists/*
 USER ${USERNAME}
 COPY .ssh.sh /home/${USERNAME}/.ssh.sh
 USER root
