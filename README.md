@@ -46,6 +46,8 @@ Prerequisites:
 
 ## First run
 
+- Make sure that code quality checks are run on each commit:
+  - `pre-commit install`
 - Create, migrate and seed the database:
   - `mix ecto.setup`
 
