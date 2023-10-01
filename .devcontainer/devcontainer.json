@@ -40,7 +40,11 @@
                     "ms-azuretools.vscode-docker": "workspace"
                 },
                 // Format on save
-                "editor.formatOnSave": true
+                "editor.formatOnSave": true,
+                // Ruler (matching `mix format`)
+                "editor.rulers": [
+                    100
+                ]
             }
         }
     }
