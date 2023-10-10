@@ -19,6 +19,12 @@ defmodule BathLARPWeb do
 
   def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
 
+  def mail do
+    quote do
+      use Pow.Phoenix.Mailer.Component
+    end
+  end
+
   def router do
     quote do
       use Phoenix.Router, helpers: false

@@ -14,7 +14,10 @@ defmodule BathLARPWeb.Router do
   scope "/v1", BathLARPWeb.V1, as: :api_v1 do
     pipe_through :api
 
-    resources "/registration", RegistrationController, singleton: true, only: [:create]
+    resources "/accounts", AccountsController, only: [:create] do
+      resources "/confirmation", AccountConfirmationController, singleton: true, only: [:create]
+    end
+
     resources "/session", SessionController, singleton: true, only: [:create, :delete, :update]
   end
 
@@ -22,6 +25,8 @@ defmodule BathLARPWeb.Router do
     pipe_through [:api, :api_protected]
 
     # Add protected endpoints here once they exist.
+
+    resources "/ping", PingController, singleton: true, only: [:show]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

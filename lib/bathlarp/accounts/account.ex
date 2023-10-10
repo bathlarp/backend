@@ -6,6 +6,7 @@ defmodule BathLARP.Accounts.Account do
   """
   use Ecto.Schema
   use Pow.Ecto.Schema
+  use Pow.Extension.Ecto.Schema, extensions: [PowResetPassword, PowEmailConfirmation]
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -13,5 +14,11 @@ defmodule BathLARP.Accounts.Account do
     pow_user_fields()
 
     timestamps()
+  end
+
+  def changeset(account_or_changeset, attrs) do
+    account_or_changeset
+    |> pow_changeset(attrs)
+    |> pow_extension_changeset(attrs)
   end
 end

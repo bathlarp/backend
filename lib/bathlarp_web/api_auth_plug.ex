@@ -125,7 +125,7 @@ defmodule BathLARPWeb.APIAuthPlug do
 
   defp fetch_access_token(conn) do
     case Conn.get_req_header(conn, "authorization") do
-      [token | _rest] -> {:ok, token}
+      [token | _rest] -> {:ok, String.replace_prefix(token, "Bearer ", "")}
       _any -> :error
     end
   end
