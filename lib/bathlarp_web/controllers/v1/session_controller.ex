@@ -9,21 +9,24 @@ defmodule BathLARPWeb.V1.SessionController do
 
   @spec create(Conn.t(), map()) :: Conn.t()
   def create(conn, %{"account" => account_params}) do
-    conn
-    |> Pow.Plug.authenticate_user(account_params)
-    |> case do
-      {:ok, conn} ->
-        json(conn, %{
-          data: %{
-            access_token: conn.private.api_access_token,
-            renewal_token: conn.private.api_renewal_token
-          }
-        })
-
+    with {:ok, conn} <- Pow.Plug.authenticate_user(conn, account_params),
+         {:ok, conn} <- check_confirmed_or_no_account(conn) do
+      json(conn, %{
+        data: %{
+          access_token: conn.private.api_access_token,
+          renewal_token: conn.private.api_renewal_token
+        }
+      })
+    else
       {:error, conn} ->
         conn
         |> put_status(401)
         |> json(%{error: %{status: 401, message: "Invalid email or password"}})
+
+      {:error, :unconfirmed, conn} ->
+        conn
+        |> put_status(401)
+        |> json(%{error: %{status: 401, message: "User is not confirmed"}})
     end
   end
 
@@ -54,5 +57,16 @@ defmodule BathLARPWeb.V1.SessionController do
     conn
     |> Pow.Plug.delete()
     |> json(%{data: %{}})
+  end
+
+  @spec check_confirmed_or_no_account(Conn.t()) ::
+          {:ok, Conn.t()} | {:error, :unconfirmed, Conn.t()}
+  defp check_confirmed_or_no_account(conn) do
+    with user when not is_nil(user) <- Pow.Plug.current_user(conn),
+         true <- PowEmailConfirmation.Plug.email_unconfirmed?(conn) do
+      {:error, :unconfirmed, conn}
+    else
+      _ -> {:ok, conn}
+    end
   end
 end

@@ -4,6 +4,8 @@ defmodule BathLARPWeb.V1.SessionControllerTest do
   alias BathLARP.{Repo, Accounts.Account}
 
   @password "secret1234"
+  @valid_params %{"account" => %{"email" => "test@example.com", "password" => @password}}
+  @invalid_params %{"account" => %{"email" => "test@example.com", "password" => "invalid"}}
 
   setup do
     account =
@@ -19,13 +21,16 @@ defmodule BathLARPWeb.V1.SessionControllerTest do
   end
 
   describe "create/2" do
-    @valid_params %{"account" => %{"email" => "test@example.com", "password" => @password}}
-    @invalid_params %{"account" => %{"email" => "test@example.com", "password" => "invalid"}}
+    test "with valid params", %{conn: conn, account: account} do
+      res_conn = post(conn, ~p"/v1/session", @valid_params)
+      assert json = json_response(res_conn, 401)
+      assert json["error"]["message"] == "User is not confirmed"
+      assert json["error"]["status"] == 401
 
-    test "with valid params", %{conn: conn} do
-      conn = post(conn, ~p"/v1/session", @valid_params)
+      PowEmailConfirmation.Ecto.Context.confirm_email(account, %{}, otp_app: :bathlarp)
+      res_conn = post(conn, ~p"/v1/session", @valid_params)
 
-      assert json = json_response(conn, 200)
+      assert json = json_response(res_conn, 200)
       assert json["data"]["access_token"]
       assert json["data"]["renewal_token"]
     end
