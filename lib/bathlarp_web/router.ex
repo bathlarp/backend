@@ -1,12 +1,37 @@
 defmodule BathLARPWeb.Router do
   use BathLARPWeb, :router
+  use Pow.Phoenix.Router
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug OpenApiSpex.Plug.PutApiSpec, module: BathLARPWeb.ApiSpec
+    plug BathLARPWeb.APIAuthPlug, otp_app: :bathlarp
   end
 
-  scope "/api", BathLARPWeb do
+  pipeline :api_protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: BathLARPWeb.APIAuthErrorHandler
+  end
+
+  scope "/v1" do
     pipe_through :api
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+  end
+
+  scope "/v1", BathLARPWeb.V1, as: :api_v1 do
+    pipe_through :api
+
+    resources "/accounts", AccountController, only: [:create] do
+      resources "/confirmation", AccountConfirmationController, singleton: true, only: [:create]
+    end
+
+    resources "/session", SessionController, singleton: true, only: [:create, :delete, :update]
+  end
+
+  scope "/v1", BathLARPWeb.V1, as: :api_v1 do
+    pipe_through [:api, :api_protected]
+
+    # Add protected endpoints here once they exist.
+
+    resources "/ping", PingController, singleton: true, only: [:show]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

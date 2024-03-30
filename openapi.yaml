@@ -1,0 +1,498 @@
+---
+components:
+  responses: {}
+  schemas:
+    CreateAccountAttributes:
+      description: Attributes for creating an account
+      properties:
+        email:
+          description: E-mail address
+          format: email
+          pattern: ^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$
+          type: string
+        password:
+          description: Password
+          minLength: 8
+          type: string
+      required:
+        - email
+        - password
+      title: CreateAccountAttributes
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Account.CreateAccountAttributes
+    CreateAccountConfirmationAttributes:
+      description: Attributes for confirming an account
+      properties:
+        token:
+          description: Code sent to the e-mail address supplied during account creation
+          type: string
+      required:
+        - token
+      title: CreateAccountConfirmationAttributes
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.AccountConfirmation.CreateAccountConfirmationAttributes
+    CreateAccountConfirmationRequest:
+      description: POST body to confirm an account with BathLARP
+      example:
+        data:
+          attributes:
+            token: secretcode
+          type: account-confirmation
+      properties:
+        data:
+          properties:
+            attributes:
+              $ref: '#/components/schemas/CreateAccountConfirmationAttributes'
+            type:
+              description: Resource type
+              enum:
+                - account-confirmation
+              type: string
+          required:
+            - type
+            - attributes
+          type: object
+      required:
+        - data
+      title: CreateAccountConfirmationRequest
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.AccountConfirmation.CreateAccountConfirmationRequest
+    CreateAccountConfirmationResponse:
+      description: Body of a success response to a request to confirm an account with BathLARP
+      example:
+        data:
+          id: df54c235-d8bf-431f-9525-f91484935252
+          type: account-confirmation
+      properties:
+        data:
+          properties:
+            id:
+              description: ID of the successful confirmation.
+              type: string
+            type:
+              description: Resource type
+              enum:
+                - account-confirmation
+              type: string
+          required:
+            - type
+            - id
+          type: object
+      required:
+        - data
+      title: CreateAccountConfirmationResponse
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.AccountConfirmation.CreateAccountConfirmationResponse
+    CreateAccountRequest:
+      description: POST body to create an account with BathLARP
+      example:
+        data:
+          attributes:
+            email: test@example.com
+            password: password123
+          type: account
+      properties:
+        data:
+          properties:
+            attributes:
+              $ref: '#/components/schemas/CreateAccountAttributes'
+            type:
+              description: Resource type
+              enum:
+                - account
+              type: string
+          required:
+            - type
+            - attributes
+          type: object
+      required:
+        - data
+      title: CreateAccountRequest
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Account.CreateAccountRequest
+    CreateAccountResponse:
+      description: Response schema for creating an account
+      properties:
+        data:
+          properties:
+            attributes:
+              properties:
+                next_step:
+                  description: What happens next
+                  type: string
+              required:
+                - next_step
+              type: object
+            id:
+              description: ID of the account creation request
+              format: uuid
+              type: string
+            type:
+              description: Resource type
+              enum:
+                - account-creation-request
+              type: string
+          required:
+            - id
+            - type
+            - attributes
+          type: object
+      title: CreateAccountResponse
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Account.CreateAccountResponse
+    CreateSessionAttributes:
+      description: Attributes for creating a session
+      properties:
+        email:
+          description: E-mail address
+          format: email
+          pattern: ^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$
+          type: string
+        password:
+          description: Password
+          type: string
+      required:
+        - email
+        - password
+      title: CreateSessionAttributes
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.CreateSessionAttributes
+    CreateSessionRequest:
+      description: POST request for creating a session
+      example:
+        data:
+          attributes:
+            email: test@example.com
+            password: supersecret
+          type: session
+      properties:
+        data:
+          properties:
+            attributes:
+              $ref: '#/components/schemas/CreateSessionAttributes'
+            type:
+              description: Resource type
+              enum:
+                - session
+              type: string
+          required:
+            - type
+            - attributes
+          type: object
+      required:
+        - data
+      title: CreateSessionRequest
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.CreateSessionRequest
+    CreateSessionResponse:
+      description: Success response to a Create Session request
+      properties:
+        data:
+          properties:
+            attributes:
+              $ref: '#/components/schemas/SessionAttributes'
+            id:
+              description: Session ID
+              format: uuid
+              type: string
+            type:
+              description: Resource type
+              enum:
+                - session
+              type: string
+          required:
+            - type
+            - id
+            - attributes
+          type: object
+      title: CreateSessionResponse
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.CreateSessionResponse
+    JsonErrorResponse:
+      properties:
+        errors:
+          items:
+            properties:
+              detail:
+                example: null value where string expected
+                type: string
+              source:
+                properties:
+                  pointer:
+                    example: /data/attributes/petName
+                    type: string
+                required:
+                  - pointer
+                type: object
+              title:
+                example: Invalid value
+                type: string
+            required:
+              - title
+              - source
+              - detail
+            type: object
+          type: array
+      required:
+        - errors
+      title: JsonErrorResponse
+      type: object
+      x-struct: Elixir.OpenApiSpex.JsonErrorResponse
+    SessionAttributes:
+      description: Session tokens
+      properties:
+        access_token:
+          description: Short-lived token for regular API access
+          type: string
+        renewal_token:
+          description: Long-lived token for refreshing the access token
+          type: string
+      required:
+        - access_token
+        - renewal_token
+      title: SessionAttributes
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.SessionAttributes
+    UpdateSessionRequest:
+      description: PATCH request for updating a session
+      example:
+        data:
+          id: df54c235-d8bf-431f-9525-f91484935252
+          type: session
+      properties:
+        data:
+          properties:
+            id:
+              format: uuid
+              type: string
+            type:
+              description: Resource type
+              enum:
+                - session
+              type: string
+          required:
+            - type
+            - id
+          type: object
+      required:
+        - data
+      title: UpdateSessionRequest
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.UpdateSessionRequest
+    UpdateSessionResponse:
+      description: Success response to an Update Session request
+      properties:
+        data:
+          properties:
+            attributes:
+              $ref: '#/components/schemas/SessionAttributes'
+            id:
+              description: Session ID
+              format: uuid
+              type: string
+            type:
+              description: Resource type
+              enum:
+                - session
+              type: string
+          required:
+            - type
+            - id
+            - attributes
+          type: object
+      title: UpdateSessionResponse
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.UpdateSessionResponse
+  securitySchemes:
+    authorization:
+      scheme: bearer
+      type: http
+info:
+  title: bathlarp
+  version: 0.1.0
+openapi: 3.0.0
+paths:
+  /v1/accounts:
+    post:
+      callbacks: {}
+      description: Create an account. Completing registration will require additional steps, detailed in the response.
+      operationId: BathLARPWeb.V1.AccountController.create
+      parameters: []
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountRequest'
+        description: Account parameters
+        required: false
+      responses:
+        202:
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/CreateAccountResponse'
+          description: Create account response
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonErrorResponse'
+          description: Unprocessable Entity
+        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonErrorResponse'
+          description: Unprocessable Entity
+      summary: Create account
+      tags:
+        - accounts
+  /v1/accounts/{account_id}/confirmation:
+    post:
+      callbacks: {}
+      description: Confirm that the e-mail address associated with a previously-created account has received a confirmation code.
+      operationId: BathLARPWeb.V1.AccountConfirmationController.create
+      parameters:
+        - description: Account ID
+          example: df54c235-d8bf-431f-9525-f91484935252
+          in: path
+          name: account_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountConfirmationRequest'
+        description: Account confirmation parameters
+        required: false
+      responses:
+        201:
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/CreateAccountConfirmationResponse'
+          description: Create account confirmation response
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonErrorResponse'
+          description: Unprocessable Entity
+        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonErrorResponse'
+          description: Unprocessable Entity
+      summary: Create account confirmation
+      tags:
+        - accounts
+  /v1/session:
+    delete:
+      callbacks: {}
+      description: Destroy a session on the BathLARP API and log out.
+      operationId: BathLARPWeb.V1.SessionController.delete
+      parameters: []
+      responses:
+        204:
+          description: Delete session response
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonErrorResponse'
+          description: Unprocessable Entity
+      summary: Delete session
+      tags:
+        - sessions
+    patch:
+      callbacks: {}
+      description: Refresh a session on the BathLARP API and obtain fresh access tokens.
+      operationId: BathLARPWeb.V1.SessionController.update (2)
+      parameters: []
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/UpdateSessionRequest'
+        description: Session parameters
+        required: false
+      responses:
+        200:
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UpdateSessionResponse'
+          description: Update session response
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonErrorResponse'
+          description: Unprocessable Entity
+      summary: Update session
+      tags:
+        - sessions
+    post:
+      callbacks: {}
+      description: Create a session on the BathLARP API server and obtain access tokens.
+      operationId: BathLARPWeb.V1.SessionController.create
+      parameters: []
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+        description: Session parameters
+        required: false
+      responses:
+        201:
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/CreateSessionResponse'
+          description: Create session response
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonErrorResponse'
+          description: Unprocessable Entity
+      summary: Create session
+      tags:
+        - sessions
+    put:
+      callbacks: {}
+      description: Refresh a session on the BathLARP API and obtain fresh access tokens.
+      operationId: BathLARPWeb.V1.SessionController.update
+      parameters: []
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/UpdateSessionRequest'
+        description: Session parameters
+        required: false
+      responses:
+        200:
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UpdateSessionResponse'
+          description: Update session response
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonErrorResponse'
+          description: Unprocessable Entity
+      summary: Update session
+      tags:
+        - sessions
+security: []
+servers:
+  - url: https://api.bathlarp.co.uk
+    variables: {}
+tags: []

@@ -33,6 +33,10 @@ defmodule BathLARPWeb.ConnCase do
 
   setup tags do
     BathLARP.DataCase.setup_sandbox(tags)
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+
+    {:ok,
+     conn:
+       Phoenix.ConnTest.build_conn()
+       |> Plug.Conn.put_req_header("content-type", "application/vnd.api+json")}
   end
 end

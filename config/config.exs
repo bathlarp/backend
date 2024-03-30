@@ -29,7 +29,7 @@ config :bathlarp, BathLARPWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :bathlarp, BathLARP.Mailer, adapter: Swoosh.Adapters.Local
+config :bathlarp, BathLARPWeb.PowMailer, adapter: Swoosh.Adapters.Local
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -38,6 +38,14 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :bathlarp, :pow,
+  web_mailer_module: BathLARPWeb,
+  user: BathLARP.Accounts.Account,
+  repo: BathLARP.Repo,
+  extensions: [PowResetPassword, PowEmailConfirmation],
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+  mailer_backend: BathLARPWeb.PowMailer
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
