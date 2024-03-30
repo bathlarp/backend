@@ -110,6 +110,18 @@ jobs:
     - name: Check unused dependencies
       run: mix deps.unlock --check-unused
 
+    # Step: Regenerate OpenAPI Specs
+    - name: Regenerate OpenAPI Specs
+      run: mix openapi.spec.yaml --spec BathLARPWeb.ApiSpec && mix openapi.spec.json --spec BathLARPWeb.ApiSpec
+
+    # Step: Fail if regenerating the OpenAPI Specs resulted in changes
+    - name: Check for uncommitted OpenAPI Spec changes
+      id: changes
+      uses: UnicornGlobal/has-changes-action@v1.0.11
+    - name: Fail on uncommitted OpenAPI Spec changes
+      if: steps.changes.outputs.changed == 1
+      run: exit 1
+
     # Step: Execute the tests.
     - name: Run tests
       run: mix test

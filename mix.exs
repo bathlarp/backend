@@ -47,7 +47,10 @@ defmodule BathLARP.MixProject do
       {:ecto_psql_extras, "~> 0.6"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:pow, "~> 1.0.34"},
-      {:elixir_uuid, "~> 1.1"}
+      {:elixir_uuid, "~> 1.1"},
+      {:open_api_spex, "~> 3.18"},
+      {:ymlr, "~> 2.0"},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
   end
 

@@ -3,7 +3,7 @@ defmodule BathLARPWeb.Router do
   use Pow.Phoenix.Router
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug OpenApiSpex.Plug.PutApiSpec, module: BathLARPWeb.ApiSpec
     plug BathLARPWeb.APIAuthPlug, otp_app: :bathlarp
   end
 
@@ -11,10 +11,15 @@ defmodule BathLARPWeb.Router do
     plug Pow.Plug.RequireAuthenticated, error_handler: BathLARPWeb.APIAuthErrorHandler
   end
 
+  scope "/v1" do
+    pipe_through :api
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+  end
+
   scope "/v1", BathLARPWeb.V1, as: :api_v1 do
     pipe_through :api
 
-    resources "/accounts", AccountsController, only: [:create] do
+    resources "/accounts", AccountController, only: [:create] do
       resources "/confirmation", AccountConfirmationController, singleton: true, only: [:create]
     end
 
