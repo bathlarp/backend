@@ -112,7 +112,7 @@ jobs:
 
     # Step: Regenerate OpenAPI Specs
     - name: Regenerate OpenAPI Specs
-      run: mix openapi.spec.yaml --spec BathLARPWeb.ApiSpec && mix openapi.spec.json --spec BathLARPWeb.ApiSpec
+      run: mix openapi.spec.yaml --spec BathLARPWeb.ApiSpec
 
     # Step: Fail if regenerating the OpenAPI Specs resulted in changes
     - name: Check for uncommitted OpenAPI Spec changes
