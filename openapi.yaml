@@ -238,6 +238,64 @@ components:
       title: JsonErrorResponse
       type: object
       x-struct: Elixir.OpenApiSpex.JsonErrorResponse
+    ListPronounsResponse:
+      description: Response schema for listing pronoun sets
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/PronounsResource'
+          type: array
+      title: ListPronounsResponse
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Pronouns.ListPronounsResponse
+    PronounsResource:
+      description: Data structure for a pronoun set
+      properties:
+        attributes:
+          $ref: '#/components/schemas/PronounstAttributes'
+        id:
+          description: ID of the pronoun set
+          format: uuid
+          type: string
+        type:
+          description: Resource type
+          enum:
+            - pronouns
+          type: string
+      required:
+        - id
+        - type
+        - attributes
+      title: PronounsResource
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Pronouns.PronounsResource
+    PronounstAttributes:
+      description: Attributes of a pronoun set
+      properties:
+        objective_personal:
+          example: me
+          type: string
+        possessive:
+          example: mine
+          type: string
+        possessive_determiner:
+          example: my
+          type: string
+        reflexive:
+          example: myself
+          type: string
+        subjective_personal:
+          example: I
+          type: string
+      required:
+        - subjective_personal
+        - objective_personal
+        - possessive
+        - possessive_determiner
+        - reflexive
+      title: PronounstAttributes
+      type: object
+      x-struct: Elixir.BathLARPWeb.V1.Schemas.Pronouns.PronounsAttributes
     SessionAttributes:
       description: Session tokens
       properties:
@@ -389,6 +447,28 @@ paths:
       summary: Create account confirmation
       tags:
         - accounts
+  /v1/pronouns:
+    get:
+      callbacks: {}
+      description: List the pronoun sets currently supported by the BathLARP site.
+      operationId: BathLARPWeb.V1.PronounsController.index
+      parameters: []
+      responses:
+        200:
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ListPronounsResponse'
+          description: List pronouns response
+        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonErrorResponse'
+          description: Unprocessable Entity
+      summary: List pronouns
+      tags:
+        - pronouns
   /v1/session:
     delete:
       callbacks: {}

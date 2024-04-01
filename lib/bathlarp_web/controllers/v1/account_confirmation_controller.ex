@@ -44,7 +44,7 @@ defmodule BathLARPWeb.V1.AccountConfirmationController do
     }
 
   @spec create(Conn.t(), map()) :: Conn.t()
-  def create(conn = %Conn{}, %{}) do
+  def create(%Conn{} = conn, %{}) do
     PowEmailConfirmation.Plug.confirm_email(conn, %{})
     |> case do
       {:ok, _result, conn} ->
@@ -73,7 +73,7 @@ defmodule BathLARPWeb.V1.AccountConfirmationController do
     end
   end
 
-  defp load_account_from_confirmation_token(conn = %Conn{}, _opts) do
+  defp load_account_from_confirmation_token(%Conn{} = conn, _opts) do
     token = Map.get(conn, :body_params).data.attributes.token
 
     case PowEmailConfirmation.Plug.load_user_by_token(conn, token) do
@@ -96,10 +96,10 @@ defmodule BathLARPWeb.V1.AccountConfirmationController do
   end
 
   defp check_account_matches_id(
-         conn = %{
+         %{
            path_params: %{"account_id" => account_id},
            assigns: %{confirm_email_user: %Account{id: account_id}}
-         },
+         } = conn,
          _opts
        ),
        do: conn

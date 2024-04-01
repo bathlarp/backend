@@ -31,7 +31,7 @@ defmodule BathLARPWeb.V1.AccountController do
     }
 
   @spec create(Conn.t(), map()) :: Conn.t()
-  def create(conn = %Conn{}, %{}) do
+  def create(%Conn{} = conn, %{}) do
     %{email: email, password: password} = Map.get(conn, :body_params).data.attributes
 
     conn

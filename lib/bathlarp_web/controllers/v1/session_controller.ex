@@ -29,7 +29,7 @@ defmodule BathLARPWeb.V1.SessionController do
     }
 
   @spec create(Conn.t(), map()) :: Conn.t()
-  def create(conn = %Conn{}, %{}) do
+  def create(%Conn{} = conn, %{}) do
     %{email: email, password: password} = Map.get(conn, :body_params).data.attributes
 
     with {:ok, conn} <-
@@ -55,7 +55,7 @@ defmodule BathLARPWeb.V1.SessionController do
     }
 
   @spec update(Conn.t(), map()) :: Conn.t()
-  def update(conn = %Conn{}, _params) do
+  def update(%Conn{} = conn, _params) do
     config = Pow.Plug.fetch_config(conn)
 
     conn
