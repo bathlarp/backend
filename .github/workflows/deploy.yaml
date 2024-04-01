@@ -1,0 +1,59 @@
+name: Deploy
+
+on:
+  workflow_call:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Get Next Version
+        id: semver
+        uses: ietf-tools/semver-action@v1
+        with:
+          token: ${{ github.token }}
+          branch: main
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          allowUpdates: true
+          draft: false
+          makeLatest: true
+          name: ${{ steps.semver.outputs.next }}
+          body: Changelog Contents
+          token: ${{ github.token }}
+
+      - name: Check for API changes
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            api:
+              - 'openapi.yaml'
+
+      - name: Generate client
+        uses: openapi-generators/openapitools-generator-action@v1
+        if: steps.changes.outputs.api == 'true'
+        with:
+          generator: typescript-axios
+          openapi-file: openapi.yaml
+          template-dir: client_template
+          command-args: --additionalProperties npmName=@bathlarp/api-client,npmVersion=${{ steps.semver.outputs.next }}
+
+      - name: Set up node
+        uses: actions/setup-node@v4
+        if: steps.changes.outputs.api == 'true'
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish API client to NPM
+        run: cd typescript_axios_client && npm ci && npm build && npm publish --access public
+        if: steps.changes.outputs.api == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
