@@ -30,8 +30,6 @@ defmodule BathLARPWeb.Router do
     pipe_through [:api, :api_protected]
 
     # Add protected endpoints here once they exist.
-
-    resources "/ping", PingController, singleton: true, only: [:show]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
