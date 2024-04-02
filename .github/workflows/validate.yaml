@@ -117,10 +117,13 @@ jobs:
 
     # Step: Fail if regenerating the OpenAPI Specs resulted in changes
     - name: Check for uncommitted OpenAPI Spec changes
-      id: changes
-      uses: UnicornGlobal/has-changes-action@v1.0.11
+      id: verify-changed-files
+      uses: tj-actions/verify-changed-files@v19
+      with:
+        files: |
+          openapi.yaml
     - name: Fail on uncommitted OpenAPI Spec changes
-      if: steps.changes.outputs.changed == 1
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       run: exit 1
 
     # Step: Execute the tests.
