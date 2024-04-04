@@ -30,6 +30,7 @@ defmodule BathLARPWeb.Router do
     pipe_through [:api, :api_protected]
 
     # Add protected endpoints here once they exist.
+    resources "/pronouns", PronounsController, only: [:index]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
