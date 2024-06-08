@@ -1,12 +1,12 @@
-FROM qmcgaw/basedevcontainer:debian
+FROM qmcgaw/basedevcontainer:v0.25.0-debian
 
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=${USER_UID}
 ARG EXTHOME
-ENV OTP_VERSION="26.0.2" \
-	REBAR3_VERSION="3.20.0" \
-	ELIXIR_VERSION="v1.15.4" \
+ENV OTP_VERSION="26.2.5" \
+	REBAR3_VERSION="3.23.0" \
+	ELIXIR_VERSION="v1.16.3" \
 	LANG=C.UTF-8
 
 # Erlang prerequisites (from buildpack-deps)
@@ -17,6 +17,7 @@ RUN set -ex; \
 	automake \
 	bzip2 \
 	curl \
+	default-libmysqlclient-dev \
 	dpkg-dev \
 	file \
 	g++ \
@@ -54,20 +55,21 @@ RUN set -ex; \
 	unzip \
 	xz-utils \
 	zlib1g-dev \
-	&& rm -rf /var/lib/apt/lists/*
+	; \
+	rm -rf /var/lib/apt/lists/*
 
-# Install Erlang - taken from: 
-# https://github.com/erlang/docker-erlang-otp/blob/bdc1fbcb4dc2636db8756af66d878a85e7afd0a7/26/Dockerfile
+# Install Erlang - taken from:
+# https://github.com/erlang/docker-erlang-otp/blob/8b812830f95216a3d8a253c24af2c55a1da4935b/26/Dockerfile
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="4def5ed5e49815fb02fceae8a66e94abc1049f5de30f97d9ad12fdf3293a2470" \
+	&& OTP_DOWNLOAD_SHA256="d34b409cb5968ae47dd5a0c4f85b925d5601898d90788bbb08d514964a3a141d" \
 	&& runtimeDeps='libodbc1 \
 	libsctp1 \
-	libwxgtk3.0 \
-	libwxgtk-webview3.0-gtk3-0v5' \
+	libwxgtk3.2-1 \
+	libwxgtk-webview3.2-1' \
 	&& buildDeps='unixodbc-dev \
 	libsctp-dev \
-	libwxgtk-webview3.0-gtk3-dev' \
+	libwxgtk-webview3.2-dev' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
@@ -107,7 +109,7 @@ RUN set -xe \
 
 RUN set -xe \
 	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz" \
-	&& REBAR3_DOWNLOAD_SHA256="53ed7f294a8b8fb4d7d75988c69194943831c104d39832a1fa30307b1a8593de" \
+	&& REBAR3_DOWNLOAD_SHA256="00646b692762ffd340560e8f16486dbda840e1546749ee5a7f58feeb77e7b516" \
 	&& mkdir -p /usr/src/rebar3-src \
 	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
 	&& echo "$REBAR3_DOWNLOAD_SHA256 rebar3-src.tar.gz" | sha256sum -c - \
@@ -119,10 +121,10 @@ RUN set -xe \
 	&& rm -rf /usr/src/rebar3-src
 
 # Install Elixir - taken from:
-# https://github.com/erlef/docker-elixir/blob/5ac15c1d2bbdbf051f198e471c93f604f71d87eb/1.15/Dockerfile
+# https://github.com/erlef/docker-elixir/blob/f749dfb8a5b1e6945b2369e143107b9ad3b16664/1.16/Dockerfile
 RUN set -xe \
 	&& ELIXIR_DOWNLOAD_URL="https://github.com/elixir-lang/elixir/archive/${ELIXIR_VERSION}.tar.gz" \
-	&& ELIXIR_DOWNLOAD_SHA256="302bf8065ab792a88f6c3a0c01a6bb58737be3e4fc2564c8afd418bf9792501c" \
+	&& ELIXIR_DOWNLOAD_SHA256="a163128e618e5205ea749f8effafa5b540008fd0bed863e75e2e09663a00ec45" \
 	&& curl -fSL -o elixir-src.tar.gz $ELIXIR_DOWNLOAD_URL \
 	&& echo "$ELIXIR_DOWNLOAD_SHA256  elixir-src.tar.gz" | sha256sum -c - \
 	&& mkdir -p /usr/local/src/elixir \
@@ -148,7 +150,7 @@ RUN cp -r /root/. /home/${USERNAME} \
 RUN sed -i -e s/root/home\\/${USERNAME}/ /home/${USERNAME}/.zshrc
 RUN apt-get update -y \
 	&& apt-get install -y --no-install-recommends \
-	inotify-tools \ 
+	inotify-tools \
 	pgcli \
 	libpq-dev \
 	httpie \
