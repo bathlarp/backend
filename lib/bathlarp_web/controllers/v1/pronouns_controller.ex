@@ -12,6 +12,7 @@ defmodule BathLARPWeb.V1.PronounsController do
   tags ["pronouns"]
 
   operation :index,
+    operation_id: "listPronouns",
     summary: "List pronouns",
     description: "List the pronoun sets currently supported by the BathLARP site.",
     responses: %{

@@ -20,6 +20,7 @@ defmodule BathLARPWeb.V1.AccountController do
   tags ["accounts"]
 
   operation :create,
+    operation_id: "createAccount",
     summary: "Create account",
     description:
       "Create an account. Completing registration will require additional steps, detailed in the response.",

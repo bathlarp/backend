@@ -374,7 +374,7 @@ paths:
     post:
       callbacks: {}
       description: Create an account. Completing registration will require additional steps, detailed in the response.
-      operationId: BathLARPWeb.V1.AccountController.create
+      operationId: createAccount
       parameters: []
       requestBody:
         content:
@@ -409,7 +409,7 @@ paths:
     post:
       callbacks: {}
       description: Confirm that the e-mail address associated with a previously-created account has received a confirmation code.
-      operationId: BathLARPWeb.V1.AccountConfirmationController.create
+      operationId: createAccountConfirmation
       parameters:
         - description: Account ID
           example: df54c235-d8bf-431f-9525-f91484935252
@@ -451,7 +451,7 @@ paths:
     get:
       callbacks: {}
       description: List the pronoun sets currently supported by the BathLARP site.
-      operationId: BathLARPWeb.V1.PronounsController.index
+      operationId: listPronouns
       parameters: []
       responses:
         200:
@@ -473,7 +473,7 @@ paths:
     delete:
       callbacks: {}
       description: Destroy a session on the BathLARP API and log out.
-      operationId: BathLARPWeb.V1.SessionController.delete
+      operationId: deleteSession
       parameters: []
       responses:
         204:
@@ -490,7 +490,7 @@ paths:
     patch:
       callbacks: {}
       description: Refresh a session on the BathLARP API and obtain fresh access tokens.
-      operationId: BathLARPWeb.V1.SessionController.update (2)
+      operationId: updateSession
       parameters: []
       requestBody:
         content:
@@ -518,7 +518,7 @@ paths:
     post:
       callbacks: {}
       description: Create a session on the BathLARP API server and obtain access tokens.
-      operationId: BathLARPWeb.V1.SessionController.create
+      operationId: createSession
       parameters: []
       requestBody:
         content:
@@ -541,34 +541,6 @@ paths:
                 $ref: '#/components/schemas/JsonErrorResponse'
           description: Unprocessable Entity
       summary: Create session
-      tags:
-        - sessions
-    put:
-      callbacks: {}
-      description: Refresh a session on the BathLARP API and obtain fresh access tokens.
-      operationId: BathLARPWeb.V1.SessionController.update
-      parameters: []
-      requestBody:
-        content:
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/UpdateSessionRequest'
-        description: Session parameters
-        required: false
-      responses:
-        200:
-          content:
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/UpdateSessionResponse'
-          description: Update session response
-        401:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/JsonErrorResponse'
-          description: Unprocessable Entity
-      summary: Update session
       tags:
         - sessions
 security: []

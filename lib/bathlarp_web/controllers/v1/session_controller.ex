@@ -20,6 +20,7 @@ defmodule BathLARPWeb.V1.SessionController do
   tags ["sessions"]
 
   operation :create,
+    operation_id: "createSession",
     summary: "Create session",
     description: "Create a session on the BathLARP API server and obtain access tokens.",
     request_body: {"Session parameters", "application/vnd.api+json", CreateSessionRequest},
@@ -46,6 +47,7 @@ defmodule BathLARPWeb.V1.SessionController do
   end
 
   operation :update,
+    operation_id: "updateSession",
     summary: "Update session",
     description: "Refresh a session on the BathLARP API and obtain fresh access tokens.",
     request_body: {"Session parameters", "application/vnd.api+json", UpdateSessionRequest},
@@ -70,6 +72,7 @@ defmodule BathLARPWeb.V1.SessionController do
   end
 
   operation :delete,
+    operation_id: "deleteSession",
     summary: "Delete session",
     description: "Destroy a session on the BathLARP API and log out.",
     responses: %{
