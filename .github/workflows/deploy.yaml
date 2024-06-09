@@ -15,14 +15,14 @@ jobs:
         id: semver
         uses: ietf-tools/semver-action@v1
         with:
-          noVersionBumpBehaviour: current
-          noNewCommitBehaviour: current
+          noVersionBumpBehavior: current
+          noNewCommitBehavior: current
           token: ${{ github.token }}
           branch: main
 
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
-        if: steps.semver.current != steps.semver.next
+        if: steps.semver.outputs.current != steps.semver.outputs.next
         with:
           allowUpdates: true
           draft: false
@@ -35,7 +35,7 @@ jobs:
       - name: Check for API changes
         uses: dorny/paths-filter@v2
         id: changes
-        if: steps.semver.current != steps.semver.next
+        if: steps.semver.outputs.current != steps.semver.outputs.next
         with:
           filters: |
             api:
