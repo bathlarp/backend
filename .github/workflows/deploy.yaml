@@ -49,7 +49,7 @@ jobs:
           generator: typescript-axios
           openapi-file: openapi.yaml
           template-dir: client_template
-          command-args: --additionalProperties=npmName=@bathlarp/api-client,npmVersion=${{ steps.semver.outputs.next }}
+          command-args: --additional-properties=npmName=@bathlarp/api-client,npmVersion=${{ steps.semver.outputs.next }}
 
       - name: Set up node
         uses: actions/setup-node@v4
