@@ -23,7 +23,9 @@ defmodule BathLARPWeb.Router do
       resources "/confirmation", AccountConfirmationController, singleton: true, only: [:create]
     end
 
-    resources "/session", SessionController, singleton: true, only: [:create, :delete, :update]
+    resources "/session", SessionController, singleton: true, only: [:create, :delete]
+    # Specify the update path separately to avoid creation of PUT endpoint
+    patch "/session", SessionController, :update
   end
 
   scope "/v1", BathLARPWeb.V1, as: :api_v1 do

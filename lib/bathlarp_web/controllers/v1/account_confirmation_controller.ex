@@ -21,6 +21,7 @@ defmodule BathLARPWeb.V1.AccountConfirmationController do
   tags ["accounts"]
 
   operation :create,
+    operation_id: "createAccountConfirmation",
     summary: "Create account confirmation",
     description:
       "Confirm that the e-mail address associated with a previously-created account has received a confirmation code.",
