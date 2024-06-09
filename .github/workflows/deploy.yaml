@@ -33,10 +33,11 @@ jobs:
           token: ${{ github.token }}
 
       - name: Check for API changes
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         id: changes
         if: steps.semver.outputs.current != steps.semver.outputs.next
         with:
+          base: ${{ steps.semver.outputs.current }}
           filters: |
             api:
               - 'openapi.yaml'
