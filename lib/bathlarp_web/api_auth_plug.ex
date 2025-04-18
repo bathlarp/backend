@@ -61,7 +61,7 @@ defmodule BathLARPWeb.APIAuthPlug do
         )
 
         PersistentSessionCache.put(
-          Keyword.put(store_config, :ttl, :timer.minutes(refresh_expiry * 60 * 24)),
+          Keyword.put(store_config, :ttl, :timer.hours(refresh_expiry * 24)),
           renewal_token,
           {account, [access_token: access_token]}
         )
