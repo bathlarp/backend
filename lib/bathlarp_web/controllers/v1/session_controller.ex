@@ -108,7 +108,8 @@ defmodule BathLARPWeb.V1.SessionController do
         id: UUID.uuid4(),
         attributes: %{
           access_token: conn.private.api_access_token,
-          renewal_token: conn.private.api_renewal_token
+          renewal_token: conn.private.api_renewal_token,
+          access_expiry: conn.private.api_access_expiry
         }
       }
     })

@@ -113,3 +113,8 @@ if config_env() == :prod do
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
 end
+
+# Set access token expiry in minutes and refresh token expiry in days
+config :bathlarp, BathLARPWeb.APIAuthPlug,
+  access_expiry: System.get_env("BATHLARP_ACCESS_EXPIRY", "15"),
+  refresh_expiry: System.get_env("BATHLARP_REFRESH_EXPIRY", "30")
