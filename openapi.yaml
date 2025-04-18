@@ -299,6 +299,10 @@ components:
     SessionAttributes:
       description: Session tokens
       properties:
+        access_expiry:
+          description: Expiry timestamp for the access token to trigger refreshes
+          format: date-time
+          type: string
         access_token:
           description: Short-lived token for regular API access
           type: string

@@ -109,6 +109,11 @@ defmodule BathLARPWeb.V1.Schemas.Session do
         renewal_token: %Schema{
           type: :string,
           description: "Long-lived token for refreshing the access token"
+        },
+        access_expiry: %Schema{
+          type: :string,
+          description: "Expiry timestamp for the access token to trigger refreshes",
+          format: :"date-time"
         }
       },
       required: [:access_token, :renewal_token]
