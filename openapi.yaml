@@ -312,6 +312,7 @@ components:
       required:
         - access_token
         - renewal_token
+        - access_expiry
       title: SessionAttributes
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.SessionAttributes
