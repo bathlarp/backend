@@ -30,7 +30,8 @@
                 "vscode-icons-team.vscode-icons",
                 "ms-azuretools.vscode-docker",
                 "jakebecker.elixir-ls",
-                "snyk-security.snyk-vulnerability-scanner"
+                "snyk-security.snyk-vulnerability-scanner",
+                "samuel-pordeus.elixir-test"
             ],
             "settings": {
                 // General settings

@@ -34,6 +34,7 @@ RUN apt-get update -y \
 	libc-dev \
 	python3-typing-extensions \
 	pre-commit \
+	pipx \
 	&& rm -r /var/cache/* /var/lib/apt/lists/*
 
 # Set up project folder
@@ -46,3 +47,8 @@ USER ${USERNAME}
 
 # Install Hex and Rebar3
 RUN mix local.hex --force && mix local.rebar --force
+
+# Install Commitizen locally
+RUN pipx ensurepath \
+	&& pipx install commitizen \
+	&& pipx upgrade commitizen
