@@ -1,5 +1,5 @@
 {
-    "name": "project-dev",
+    "name": "BathLARP Backend",
     "remoteUser": "vscode",
     "dockerComposeFile": [
         "docker-compose.yml"
@@ -10,9 +10,9 @@
         "database"
     ],
     "shutdownAction": "stopCompose",
-    "postCreateCommand": "~/.ssh.sh",
+    "postCreateCommand": "pre-commit install --hook-type commit-msg",
     "workspaceFolder": "/workspace",
-    // "overrideCommand": "",
+    "overrideCommand": true, // Hack while debugging
     "customizations": {
         "vscode": {
             "extensions": [
@@ -47,5 +47,8 @@
                 ]
             }
         }
-    }
+    },
+    "mounts": [
+        "type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/<remoteusername>/.ssh,readonly"
+    ]
 }
