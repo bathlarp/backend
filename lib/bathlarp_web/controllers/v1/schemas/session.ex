@@ -116,7 +116,7 @@ defmodule BathLARPWeb.V1.Schemas.Session do
           format: :"date-time"
         }
       },
-      required: [:access_token, :renewal_token]
+      required: [:access_token, :renewal_token, :access_expiry]
     })
   end
 
