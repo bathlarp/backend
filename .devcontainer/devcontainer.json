@@ -49,6 +49,6 @@
         }
     },
     "mounts": [
-        "type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/<remoteusername>/.ssh,readonly"
+        "type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,readonly"
     ]
 }
