@@ -3,6 +3,10 @@ name: Deploy
 on:
   workflow_call:
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -69,4 +73,3 @@ jobs:
         with:
           package: typescript-axios-client
           access: public
-          token: ${{ secrets.NPM_TOKEN }}
