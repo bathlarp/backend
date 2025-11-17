@@ -1,5 +1,5 @@
 {
-    "name": "project-dev",
+    "name": "BathLARP Backend",
     "remoteUser": "vscode",
     "dockerComposeFile": [
         "docker-compose.yml"
@@ -10,9 +10,9 @@
         "database"
     ],
     "shutdownAction": "stopCompose",
-    "postCreateCommand": "~/.ssh.sh",
+    "postCreateCommand": "pre-commit install --hook-type commit-msg",
     "workspaceFolder": "/workspace",
-    // "overrideCommand": "",
+    "overrideCommand": true, // Hack while debugging
     "customizations": {
         "vscode": {
             "extensions": [
@@ -28,9 +28,10 @@
                 "spikespaz.vscode-smoothtype",
                 "stkb.rewrap",
                 "vscode-icons-team.vscode-icons",
-                "ms-azuretools.vscode-docker",
+                "ms-azuretools.vscode-containers",
                 "jakebecker.elixir-ls",
-                "snyk-security.snyk-vulnerability-scanner"
+                "snyk-security.snyk-vulnerability-scanner",
+                "samuel-pordeus.elixir-test"
             ],
             "settings": {
                 // General settings
@@ -47,5 +48,8 @@
                 ]
             }
         }
-    }
+    },
+    "mounts": [
+        "type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,readonly"
+    ]
 }
