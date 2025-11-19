@@ -20,5 +20,5 @@ defmodule BathLARPWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :bathlarp
+  use Gettext.Backend, otp_app: :bathlarp
 end

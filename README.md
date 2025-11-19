@@ -31,8 +31,8 @@ If you want to go it alone, you'll need something along the following lines:
 
 Prerequisites:
 
-- Elixir 1.15.x
-  - Follow the instructions [here](https://elixir-lang.org/install.html) to get
+- Elixir 1.18.x
+  - Follow the [installation instructions](https://elixir-lang.org/install.html) to get
     this installed.
 - A Postgres database server
   - The development and test configuration assumes that the database server is
@@ -48,8 +48,8 @@ Prerequisites:
 
 - Make sure that code quality checks are run on each commit:
   - `pre-commit install`
-- Create, migrate and seed the database:
-  - `mix ecto.setup`
+- Get dependencies, and create, migrate and seed the database:
+  - `mix setup`
 
 ## Handy commands
 
@@ -60,7 +60,8 @@ Prerequisites:
   - The application will be made available on <http://localhost:4000> (you'll
     need an API client to interact with it, though).
   - You can also access a dashboard at <http://localhost:4000/dev/dashboard>
-    that will give you quite a lot of information about how it's performing.
+    that will give you quite a lot of information about how it's performing. You
+    can also see any e-mails sent by the server at <http://localhost:4000/dev/mailbox>.
   - To stop the server again, press Ctrl-C twice.
 - Run the application inside an interactive console (handy for debugging):
   - `iex -S mix phx.server`
