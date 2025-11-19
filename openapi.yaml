@@ -10,27 +10,35 @@ components:
           format: email
           pattern: ^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$
           type: string
+          x-struct:
+          x-validate:
         password:
           description: Password
           minLength: 8
           type: string
+          x-struct:
+          x-validate:
       required:
         - email
         - password
       title: CreateAccountAttributes
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Account.CreateAccountAttributes
+      x-validate:
     CreateAccountConfirmationAttributes:
       description: Attributes for confirming an account
       properties:
         token:
           description: Code sent to the e-mail address supplied during account creation
           type: string
+          x-struct:
+          x-validate:
       required:
         - token
       title: CreateAccountConfirmationAttributes
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.AccountConfirmation.CreateAccountConfirmationAttributes
+      x-validate:
     CreateAccountConfirmationRequest:
       description: POST body to confirm an account with BathLARP
       example:
@@ -48,15 +56,20 @@ components:
               enum:
                 - account-confirmation
               type: string
+              x-struct:
+              x-validate:
           required:
             - type
             - attributes
           type: object
+          x-struct:
+          x-validate:
       required:
         - data
       title: CreateAccountConfirmationRequest
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.AccountConfirmation.CreateAccountConfirmationRequest
+      x-validate:
     CreateAccountConfirmationResponse:
       description: Body of a success response to a request to confirm an account with BathLARP
       example:
@@ -69,20 +82,27 @@ components:
             id:
               description: ID of the successful confirmation.
               type: string
+              x-struct:
+              x-validate:
             type:
               description: Resource type
               enum:
                 - account-confirmation
               type: string
+              x-struct:
+              x-validate:
           required:
             - type
             - id
           type: object
+          x-struct:
+          x-validate:
       required:
         - data
       title: CreateAccountConfirmationResponse
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.AccountConfirmation.CreateAccountConfirmationResponse
+      x-validate:
     CreateAccountRequest:
       description: POST body to create an account with BathLARP
       example:
@@ -101,15 +121,20 @@ components:
               enum:
                 - account
               type: string
+              x-struct:
+              x-validate:
           required:
             - type
             - attributes
           type: object
+          x-struct:
+          x-validate:
       required:
         - data
       title: CreateAccountRequest
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Account.CreateAccountRequest
+      x-validate:
     CreateAccountResponse:
       description: Response schema for creating an account
       properties:
@@ -120,26 +145,37 @@ components:
                 next_step:
                   description: What happens next
                   type: string
+                  x-struct:
+                  x-validate:
               required:
                 - next_step
               type: object
+              x-struct:
+              x-validate:
             id:
               description: ID of the account creation request
               format: uuid
               type: string
+              x-struct:
+              x-validate:
             type:
               description: Resource type
               enum:
                 - account-creation-request
               type: string
+              x-struct:
+              x-validate:
           required:
             - id
             - type
             - attributes
           type: object
+          x-struct:
+          x-validate:
       title: CreateAccountResponse
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Account.CreateAccountResponse
+      x-validate:
     CreateSessionAttributes:
       description: Attributes for creating a session
       properties:
@@ -148,15 +184,20 @@ components:
           format: email
           pattern: ^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$
           type: string
+          x-struct:
+          x-validate:
         password:
           description: Password
           type: string
+          x-struct:
+          x-validate:
       required:
         - email
         - password
       title: CreateSessionAttributes
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.CreateSessionAttributes
+      x-validate:
     CreateSessionRequest:
       description: POST request for creating a session
       example:
@@ -175,15 +216,20 @@ components:
               enum:
                 - session
               type: string
+              x-struct:
+              x-validate:
           required:
             - type
             - attributes
           type: object
+          x-struct:
+          x-validate:
       required:
         - data
       title: CreateSessionRequest
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.CreateSessionRequest
+      x-validate:
     CreateSessionResponse:
       description: Success response to a Create Session request
       properties:
@@ -195,19 +241,26 @@ components:
               description: Session ID
               format: uuid
               type: string
+              x-struct:
+              x-validate:
             type:
               description: Resource type
               enum:
                 - session
               type: string
+              x-struct:
+              x-validate:
           required:
             - type
             - id
             - attributes
           type: object
+          x-struct:
+          x-validate:
       title: CreateSessionResponse
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.CreateSessionResponse
+      x-validate:
     JsonErrorResponse:
       properties:
         errors:
@@ -216,28 +269,41 @@ components:
               detail:
                 example: null value where string expected
                 type: string
+                x-struct:
+                x-validate:
               source:
                 properties:
                   pointer:
                     example: /data/attributes/petName
                     type: string
+                    x-struct:
+                    x-validate:
                 required:
                   - pointer
                 type: object
+                x-struct:
+                x-validate:
               title:
                 example: Invalid value
                 type: string
+                x-struct:
+                x-validate:
             required:
               - title
               - source
               - detail
             type: object
+            x-struct:
+            x-validate:
           type: array
+          x-struct:
+          x-validate:
       required:
         - errors
       title: JsonErrorResponse
       type: object
       x-struct: Elixir.OpenApiSpex.JsonErrorResponse
+      x-validate:
     ListPronounsResponse:
       description: Response schema for listing pronoun sets
       properties:
@@ -245,9 +311,12 @@ components:
           items:
             $ref: '#/components/schemas/PronounsResource'
           type: array
+          x-struct:
+          x-validate:
       title: ListPronounsResponse
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Pronouns.ListPronounsResponse
+      x-validate:
     PronounsResource:
       description: Data structure for a pronoun set
       properties:
@@ -257,11 +326,15 @@ components:
           description: ID of the pronoun set
           format: uuid
           type: string
+          x-struct:
+          x-validate:
         type:
           description: Resource type
           enum:
             - pronouns
           type: string
+          x-struct:
+          x-validate:
       required:
         - id
         - type
@@ -269,24 +342,35 @@ components:
       title: PronounsResource
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Pronouns.PronounsResource
+      x-validate:
     PronounstAttributes:
       description: Attributes of a pronoun set
       properties:
         objective_personal:
           example: me
           type: string
+          x-struct:
+          x-validate:
         possessive:
           example: mine
           type: string
+          x-struct:
+          x-validate:
         possessive_determiner:
           example: my
           type: string
+          x-struct:
+          x-validate:
         reflexive:
           example: myself
           type: string
+          x-struct:
+          x-validate:
         subjective_personal:
           example: I
           type: string
+          x-struct:
+          x-validate:
       required:
         - subjective_personal
         - objective_personal
@@ -296,6 +380,7 @@ components:
       title: PronounstAttributes
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Pronouns.PronounsAttributes
+      x-validate:
     SessionAttributes:
       description: Session tokens
       properties:
@@ -303,12 +388,18 @@ components:
           description: Expiry timestamp for the access token to trigger refreshes
           format: date-time
           type: string
+          x-struct:
+          x-validate:
         access_token:
           description: Short-lived token for regular API access
           type: string
+          x-struct:
+          x-validate:
         renewal_token:
           description: Long-lived token for refreshing the access token
           type: string
+          x-struct:
+          x-validate:
       required:
         - access_token
         - renewal_token
@@ -316,6 +407,7 @@ components:
       title: SessionAttributes
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.SessionAttributes
+      x-validate:
     UpdateSessionRequest:
       description: PATCH request for updating a session
       example:
@@ -328,20 +420,27 @@ components:
             id:
               format: uuid
               type: string
+              x-struct:
+              x-validate:
             type:
               description: Resource type
               enum:
                 - session
               type: string
+              x-struct:
+              x-validate:
           required:
             - type
             - id
           type: object
+          x-struct:
+          x-validate:
       required:
         - data
       title: UpdateSessionRequest
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.UpdateSessionRequest
+      x-validate:
     UpdateSessionResponse:
       description: Success response to an Update Session request
       properties:
@@ -353,19 +452,26 @@ components:
               description: Session ID
               format: uuid
               type: string
+              x-struct:
+              x-validate:
             type:
               description: Resource type
               enum:
                 - session
               type: string
+              x-struct:
+              x-validate:
           required:
             - type
             - id
             - attributes
           type: object
+          x-struct:
+          x-validate:
       title: UpdateSessionResponse
       type: object
       x-struct: Elixir.BathLARPWeb.V1.Schemas.Session.UpdateSessionResponse
+      x-validate:
   securitySchemes:
     authorization:
       scheme: bearer
@@ -423,6 +529,8 @@ paths:
           required: true
           schema:
             type: string
+            x-struct:
+            x-validate:
       requestBody:
         content:
           application/vnd.api+json:

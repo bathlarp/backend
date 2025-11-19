@@ -48,7 +48,7 @@ defmodule BathLARPWeb do
         layouts: [html: BathLARPWeb.Layouts]
 
       import Plug.Conn
-      import BathLARPWeb.Gettext
+      use Gettext, backend: BathLARPWeb.Gettext
 
       unquote(verified_routes())
     end

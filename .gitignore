@@ -27,3 +27,9 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 bathlarp-*.tar
 
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.github/instructions/snyk_rules.instructions.md
+
+# MacOS files
+.DS_Store
