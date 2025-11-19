@@ -34,7 +34,6 @@ jobs:
           commit: main
           tag: ${{ steps.semver.outputs.next }}
           body: Changelog Contents
-          token: ${{ github.token }}
 
       - name: Check for API changes
         uses: dorny/paths-filter@v3
