@@ -10,11 +10,12 @@ import Config
 config :bathlarp,
   namespace: BathLARP,
   ecto_repos: [BathLARP.Repo],
-  generators: [binary_id: true]
+  generators: [timestamp_type: :utc_datetime, binary_id: true]
 
 # Configures the endpoint
 config :bathlarp, BathLARPWeb.Endpoint,
   url: [host: "localhost"],
+  adapter: Bandit.PhoenixAdapter,
   render_errors: [
     formats: [json: BathLARPWeb.ErrorJSON],
     layout: false
@@ -32,7 +33,7 @@ config :bathlarp, BathLARPWeb.Endpoint,
 config :bathlarp, BathLARPWeb.PowMailer, adapter: Swoosh.Adapters.Local
 
 # Configures Elixir's Logger
-config :logger, :console,
+config :logger, :default_formatter,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
