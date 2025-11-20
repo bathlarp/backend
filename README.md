@@ -31,7 +31,7 @@ If you want to go it alone, you'll need something along the following lines:
 
 Prerequisites:
 
-- Elixir 1.18.x
+- Elixir 1.19.x
   - Follow the [installation instructions](https://elixir-lang.org/install.html) to get
     this installed.
 - A Postgres database server

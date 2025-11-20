@@ -1,5 +1,5 @@
 # Use an official Elixir image as the base
-FROM elixir:1.18.3
+FROM elixir:1.19.3-otp-28
 
 # Set-up for switching to non-root user
 ARG USERNAME=vscode
