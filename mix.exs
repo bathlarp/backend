@@ -9,7 +9,8 @@ defmodule BathLARP.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      listeners: [Phoenix.CodeReloader]
     ]
   end
 
@@ -23,6 +24,12 @@ defmodule BathLARP.MixProject do
     ]
   end
 
+  def cli do
+    [
+      preferred_envs: [precommit: :test]
+    ]
+  end
+
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
@@ -32,18 +39,21 @@ defmodule BathLARP.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7.7"},
-      {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.10"},
+      # Remove override when Pow supports latest Phoenix
+      {:phoenix, "~> 1.8.1", override: true},
+      {:phoenix_ecto, "~> 4.5"},
+      {:ecto_sql, "~> 3.13"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_dashboard, "~> 0.8.0"},
-      {:swoosh, "~> 1.3"},
-      {:finch, "~> 0.13"},
-      {:telemetry_metrics, "~> 0.6"},
+      {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:swoosh, "~> 1.16"},
+      {:req, "~> 0.5"},
+      {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.20"},
+      {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"},
+      {:dns_cluster, "~> 0.2.0"},
+      {:bandit, "~> 1.5"},
+      # Custom deps
       {:ecto_psql_extras, "~> 0.6"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:pow, "~> 1.0.34"},
@@ -65,7 +75,15 @@ defmodule BathLARP.MixProject do
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      precommit: [
+        "compile --warning-as-errors",
+        "deps.unlock --unused",
+        "format",
+        "test",
+        "credo",
+        "openapi.spec.yaml --spec BathLARPWeb.ApiSpec --start-app=false"
+      ]
     ]
   end
 end

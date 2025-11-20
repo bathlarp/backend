@@ -8,18 +8,14 @@ defmodule BathLARP.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Telemetry supervisor
       BathLARPWeb.Telemetry,
-      # Start the Ecto repository
       BathLARP.Repo,
-      # Start the PubSub system
+      {DNSCluster, query: Application.get_env(:bathlarp, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: BathLARP.PubSub},
-      # Start Finch
-      {Finch, name: BathLARP.Finch},
-      # Start the Endpoint (http/https)
-      BathLARPWeb.Endpoint
       # Start a worker by calling: BathLARP.Worker.start_link(arg)
-      # {BathLARP.Worker, arg}
+      # {BathLARP.Worker, arg},
+      # Start to serve requests, typically the last entry
+      BathLARPWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

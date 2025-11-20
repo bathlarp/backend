@@ -43,12 +43,11 @@ defmodule BathLARPWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller,
-        formats: [:html, :json],
-        layouts: [html: BathLARPWeb.Layouts]
+      use Phoenix.Controller, formats: [:html, :json]
+
+      use Gettext, backend: BathLARPWeb.Gettext
 
       import Plug.Conn
-      use Gettext, backend: BathLARPWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -64,7 +63,7 @@ defmodule BathLARPWeb do
   end
 
   @doc """
-  When used, dispatch to the appropriate controller/view/etc.
+  When used, dispatch to the appropriate controller/live_view/etc.
   """
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
