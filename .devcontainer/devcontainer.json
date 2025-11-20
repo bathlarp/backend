@@ -10,7 +10,7 @@
         "database"
     ],
     "shutdownAction": "stopCompose",
-    "postCreateCommand": "pre-commit install --hook-type commit-msg",
+    "postCreateCommand": "pre-commit install",
     "workspaceFolder": "/workspace",
     "overrideCommand": true, // Hack while debugging
     "customizations": {
